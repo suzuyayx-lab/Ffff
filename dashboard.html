@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة الطالب — كلية الفارابي</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --blue:#0055a5;
+  --blue-dark:#004080;
+  --muted:#666;
+  --bg:#f7f9fc;
+  --card:#fff;
+  --green:#28a745;
+  --blue-light:#17a2b8;
+  --orange:#fd7e14;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Segoe UI",Arial;direction:rtl;background:var(--bg)}
+header{
+  background:var(--blue);color:#fff;
+  padding:14px 18px;display:flex;align-items:center;gap:12px
+}
+header img{width:46px;height:46px;object-fit:contain}
+header .title{font-size:18px;font-weight:600;flex-grow:1;}
+.logout{background:#fff;color:var(--blue);padding:8px 10px;border-radius:8px;border:none;cursor:pointer}
+.container{max-width:900px;margin:20px auto;padding:0 16px}
+.sections{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:16px}
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:12px;
+  flex:1;min-width:180px;
+  text-align:center;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,0.05);
+  transition:transform 0.2s, box-shadow 0.2s;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 25px rgba(0,0,0,0.15);}
+.card i{font-size:32px;color:var(--blue);}
+.content{margin-top:20px;background:#fff;padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.05)}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+th,td{padding:10px;border-bottom:1px solid #f0f0f0;text-align:right;font-size:14px}
+th{background:#fafafa;color:var(--muted);font-weight:600}
+td.status-excellent{color:var(--green);font-weight:600;}
+td.status-verygood{color:var(--blue-light);font-weight:600;}
+td.status-pass{color:var(--orange);font-weight:600;}
+.info-item{margin:8px 0;font-size:15px;}
+</style>
+</head>
+<body>
+<header>
+  <img src="https://alfarabiuc.edu.iq/wp-content/uploads/2025/08/ab24a519-3d49-4507-a3fd-bb7e6f8ffa0e-removebg-preview.png">
+  <div class="title">لوحة الطالب</div>
+  <button class="logout" id="logoutBtn">تسجيل خروج</button>
+</header>
+
+<div class="container">
+  <div class="sections">
+    <div class="card" data-section="info"><i class="fa-solid fa-user-graduate"></i><span>معلومات الطالب</span></div>
+    <div class="card" data-section="schedule"><i class="fa-solid fa-calendar-days"></i><span>الجدول</span></div>
+    <div class="card" data-section="attendance"><i class="fa-solid fa-check-circle"></i><span>الحضور</span></div>
+    <div class="card" data-section="results"><i class="fa-solid fa-file-lines"></i><span>النتائج</span></div>
+  </div>
+
+  <div class="content" id="contentArea">
+    <p>اضغط على أي قسم لعرض محتواه.</p>
+  </div>
+</div>
+
+<script>
+// استرجاع اسم الطالب من localStorage
+const currentStudent = JSON.parse(localStorage.getItem('lms_current_student') || '{}');
+
+// بيانات الطالب
+const studentInfo = {
+  name: currentStudent.name || 'طالب',
+  department: 'هندسة الحاسوب',
+  stage: 'المرحلة الرابعة'
+};
+
+const content = document.getElementById('contentArea');
+const sections = document.querySelectorAll('.card');
+
+sections.forEach(card=>{
+  card.addEventListener('click',()=>{
+    const sec = card.getAttribute('data-section');
+    if(sec==="results"){
+      content.innerHTML = `
+        <h3>امتحان الدور الثاني</h3>
+        <table>
+          <thead><tr><th>المادة</th><th>التقييم</th></tr></thead>
+          <tbody>
+            <tr><td>اللغة الإنجليزية</td><td class="status-excellent">ممتاز</td></tr>
+            <tr><td>اللغة العربية</td><td class="status-verygood">جيد جدًا</td></tr>
+            <tr><td>المعالجة المتوازية</td><td class="status-pass">مقبول</td></tr>
+          </tbody>
+        </table>
+      `;
+    } else if(sec==="info"){
+      content.innerHTML = `
+        <h3>معلومات الطالب</h3>
+        <p class="info-item"><strong>الاسم:</strong> ${studentInfo.name}</p>
+        <p class="info-item"><strong>القسم:</strong> ${studentInfo.department}</p>
+        <p class="info-item"><strong>المرحلة:</strong> ${studentInfo.stage}</p>
+      `;
+    } else {
+      content.innerHTML = `<p>البيانات منتهية الصلاحية.</p>`;
+    }
+  });
+});
+
+// زر تسجيل الخروج
+document.getElementById('logoutBtn').addEventListener('click',()=>{
+  localStorage.removeItem('lms_current_student');
+  window.location.href = 'login.html';
+});
+</script>
+</body>
+</html>

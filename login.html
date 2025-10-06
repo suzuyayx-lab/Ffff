@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>بوابة كلية الفارابي — تسجيل الدخول (عرض تجريبي)</title>
+  <style>
+    :root{
+      --blue:#0055a5;
+      --card:#fff;
+      --page-bg:linear-gradient(to bottom,#0055a5 0%, #f5f5f5 100%);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+      direction:rtl;
+      background:var(--page-bg);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    .login-container{
+      width:100%;
+      max-width:420px;
+      background:var(--card);
+      padding:28px;
+      border-radius:12px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.15);
+      text-align:center;
+    }
+    .login-container img{width:120px; display:block; margin:0 auto 16px;}
+    h2{margin:0 0 24px;color:var(--blue)}
+    button{
+      width:100%;margin-top:20px;padding:12px;border:none;border-radius:8px;
+      background:var(--blue);color:#fff;font-size:16px;cursor:pointer;
+    }
+    button:hover{opacity:0.9;}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="https://alfarabiuc.edu.iq/wp-content/uploads/2025/08/ab24a519-3d49-4507-a3fd-bb7e6f8ffa0e-removebg-preview.png" alt="شعار الكلية">
+    <h2>تسجيل الدخول (عرض تجريبي)</h2>
+
+    <form id="loginForm">
+      <input type="email" placeholder="البريد الإلكتروني" required style="width:100%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #d0d0d0;">
+      <input type="password" placeholder="كلمة المرور" required style="width:100%;padding:10px;margin-bottom:12px;border-radius:8px;border:1px solid #d0d0d0;">
+      <button type="submit">دخول</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      // أي إدخال مقبول، يتم مباشرة حفظ اسم الطالب للعرض التجريبي
+      localStorage.setItem('lms_current_student', JSON.stringify({name:"زيد عبد جبر"}));
+      window.location.href = 'dashboard.html';
+    });
+  </script>
+</body>
+</html>
